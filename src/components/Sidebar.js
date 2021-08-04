@@ -1,29 +1,37 @@
 import React, { useState } from "react";
-import Nav from "../styles/nav";
-import NavIcon from "../styles/navIcon";
-import SidebarNav from "../styles/SidebarNav";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
-import SidebarWrap from "../styles/SidebarWrap";
-function Sidebar() {
+import { SidebarData } from "./SidebarData";
+import SubMenu from "./SubMenu";
+import { IconContext } from "react-icons/lib";
+import { Nav, NavIcon, SidebarNav, SidebarWrap } from "../styles/nav";
+
+const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
+
   const showSidebar = () => setSidebar(!sidebar);
+
   return (
     <>
-      <Nav>
-        <NavIcon>
-          <FaIcons.FaBars onClick={showSidebar}/>
-        </NavIcon>
-      </Nav>
-      <SidebarNav sidebar={sidebar}>
-        <SidebarWrap>
-          <NavIcon>
-            <AiIcons.AiOutlineClose onClick={showSidebar}/>
+      <IconContext.Provider value={{ color: "#fff" }}>
+        <Nav>
+          <NavIcon to="#">
+            <FaIcons.FaBars onClick={showSidebar} />
           </NavIcon>
-        </SidebarWrap>
-      </SidebarNav>
+        </Nav>
+        <SidebarNav sidebar={sidebar}>
+          <SidebarWrap>
+            <NavIcon to="#">
+              <AiIcons.AiOutlineClose onClick={showSidebar} />
+            </NavIcon>
+            {SidebarData.map((item, index) => {
+              return <SubMenu item={item} key={index} />;
+            })}
+          </SidebarWrap>
+        </SidebarNav>
+      </IconContext.Provider>
     </>
   );
-}
+};
 
 export default Sidebar;
